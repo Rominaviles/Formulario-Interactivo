@@ -7,12 +7,13 @@ botonContraste.addEventListener('click', function() {
 });
 
 /* Formulario */
-const datos  = {
+const datos = {
     nombre: '',
     apellido: '',
     correo: '',
     fechaNacimiento: '',
-    pais: ''
+    pais: '',
+    comentarios: '' // Asegúrate de que la propiedad coincida con el id del textarea
 };
 
 const nombreInput = document.querySelector('#nombre');
@@ -20,6 +21,7 @@ const apellidoInput = document.querySelector('#apellido');
 const correoInput = document.querySelector('#correo');
 const fechaNacimientoInput = document.querySelector('#fechaNacimiento');
 const paisInput = document.querySelector('#pais');
+const comentariosInput = document.querySelector('#comentarios'); // Cambié 'comments' por 'comentarios'
 const formulario = document.querySelector(".formulario");
 
 nombreInput.addEventListener('input', leerTexto);
@@ -27,6 +29,7 @@ apellidoInput.addEventListener('input', leerTexto);
 correoInput.addEventListener('input', leerTexto);
 fechaNacimientoInput.addEventListener('input', leerTexto);
 paisInput.addEventListener('input', leerTexto);
+comentariosInput.addEventListener('input', leerTexto); // Event listener para textarea
 
 // Evento submit
 formulario.addEventListener('submit', function(evento) {
@@ -35,7 +38,7 @@ formulario.addEventListener('submit', function(evento) {
     datos.pais = capitalizacionPrimerLetra(datos.pais);
 
     // Validación del formulario
-    const { nombre, apellido, correo, pais, fechaNacimiento } = datos;
+    const { nombre, apellido, correo, pais, fechaNacimiento, comentarios } = datos;
 
     if (nombre === '' || correo === '' || pais === '') {
         mostrarAlerta('Nombre, correo y país son obligatorios', 'error');
@@ -52,8 +55,12 @@ formulario.addEventListener('submit', function(evento) {
     } else if (pais === '' || !esPaisValido(pais)) {
         mostrarAlerta('Ingrese un país válido', 'error');
         return;
+    } else if (comentarios.trim().length < 10 || comentarios.trim().length > 500) { // Validación de longitud del comentario
+        mostrarAlerta('Los comentarios deben tener entre 10 y 500 caracteres', 'error');
+        return;
     } else {
         mostrarAlerta('Formulario enviado correctamente');
+        // Aquí puedes agregar lógica para enviar el formulario si es necesario.
     }
 });
 
@@ -81,39 +88,26 @@ function mostrarAlerta(mensaje, error = null) {
     }, 2000);
 }
 
-// Validación de país
+let paisesValidos = [];
+
+// Hacemos un fetch al archivo JSON para obtener la lista de países válidos
+fetch('paises.json')
+    .then(response => response.json())
+    .then(data => {
+        paisesValidos = data.paisesValidos;
+        console.log('Paises cargados:', paisesValidos); // Verificar si los países se cargan correctamente
+    })
+    .catch(error => {
+        console.error('Error al cargar los países:', error);
+    });
+
+// Función para validar si el país ingresado es válido
 function esPaisValido(pais) {
-    const paisesValidos = [
-        'Afganistán', 'Albania', 'Alemania', 'Andorra', 'Angola', 'Antigua y Barbuda',
-        'Arabia Saudita', 'Argelia', 'Argentina', 'Armenia', 'Australia', 'Austria',
-        'Azerbaiyán', 'Bahamas', 'Barbados', 'Baréin', 'Bélgica', 'Belice', 'Benín',
-        'Bielorrusia', 'Birmania', 'Bolivia', 'Bosnia y Herzegovina', 'Botsuana', 'Brasil',
-        'Brunéi', 'Bulgaria', 'Burkina Faso', 'Burundi', 'Bután', 'Cabo Verde', 'Camboya',
-        'Camerún', 'Canadá', 'Chad', 'Chile', 'China', 'Chipre', 'Colombia', 'Comoras',
-        'Congo', 'Congo, República Democrática del', 'Corea del Norte', 'Corea del Sur', 'Costa Rica',
-        'Croacia', 'Cuba', 'Dinamarca', 'Dominica', 'Ecuador', 'Egipto', 'El Salvador',
-        'Emiratos Árabes Unidos', 'Eritrea', 'Eslovaquia', 'Eslovenia', 'España', 'Estados Unidos',
-        'Estonia', 'Eswatini', 'Etiopía', 'Fiji', 'Filipinas', 'Finlandia', 'Francia', 'Gabón',
-        'Gambia', 'Georgia', 'Ghana', 'Granada', 'Grecia', 'Guatemala', 'Guinea', 'Guinea-Bisáu',
-        'Guinea Ecuatorial', 'Guyana', 'Haití', 'Honduras', 'Hungría', 'India', 'Indonesia',
-        'Irán', 'Iraq', 'Irlanda', 'Islandia', 'Islas Marshall', 'Islas Salomón', 'Israel', 'Italia',
-        'Jamaica', 'Japón', 'Jordania', 'Kazajistán', 'Kenia', 'Kirguistán', 'Kiribati', 'Kuwait',
-        'Laos', 'Lesoto', 'Letonia', 'Líbano', 'Liberia', 'Libia', 'Liechtenstein', 'Lituania',
-        'Luxemburgo', 'Madagascar', 'Malasia', 'Malawi', 'Maldivas', 'Malí', 'Malta', 'Marruecos',
-        'Mauricio', 'Mauritania', 'México', 'Micronesia', 'Moldavia', 'Mónaco', 'Mongolia',
-        'Montenegro', 'Morocco', 'Mozambique', 'Namibia', 'Nauru', 'Nepal', 'Nicaragua', 'Níger',
-        'Nigeria', 'Noruega', 'Nueva Zelanda', 'Omán', 'Países Bajos', 'Pakistán', 'Palaos',
-        'Panamá', 'Papúa Nueva Guinea', 'Paraguay', 'Perú', 'Polonia', 'Portugal', 'Reino Unido',
-        'República Centroafricana', 'República Checa', 'República del Congo', 'República Dominicana',
-        'Ruanda', 'Rumanía', 'Rusia', 'San Cristóbal y Nieves', 'San Marino', 'Santa Lucía',
-        'Santa Elena', 'Santo Tomé y Príncipe', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leona',
-        'Singapur', 'Siria', 'Somalia', 'Sri Lanka', 'Suecia', 'Suiza', 'Surinam', 'Tailandia',
-        'Taiwán', 'Tanzania', 'Timor Oriental', 'Togo', 'Tonga', 'Trinidad y Tobago', 'T Túnez',
-        'Turkmenistán', 'Turquía', 'Tuvalu', 'Ucrania', 'Uganda', 'Uruguay', 'Uzbekistán', 'Vanuatu',
-        'Vaticano', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabue'
-    ];
     return paisesValidos.includes(pais);
 }
+
+
+
 
 // Validación de fecha
 function esFechaValida(fecha) {
