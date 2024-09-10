@@ -2,7 +2,7 @@
     --blanco: #FFFFFF;
     --primario: #757575;
     --secundario:#2C3E50;
-    --terciario: #1ABC9C
+    --terciario: #1ABC9C;
 }
 
 html {
@@ -10,32 +10,33 @@ html {
     box-sizing: border-box;
 }
 
-*, *:before, *:after{
+*, *:before, *:after {
     box-sizing: inherit;
 }
 
 body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
-    height: 100vh;
     font-family: "Krub", sans-serif;
-    background-image:linear-gradient(to top, var(--primario) 0%, var(--blanco) 100%);
+    background-image: linear-gradient(to top, var(--primario) 0%, var(--blanco) 100%);
 }
 
-.contenedor{
-    max-width: 50rem;
+.contenedor {
+    max-width: 90%;
     width: 100%;
-    margin: 0 auto;
     padding: 2rem;
     border-radius: 1rem;
-    -webkit-box-shadow: 0px 5px 15px 0px rgba(112,112,112,0.6);
-    -moz-box-shadow: 0px 5px 15px 0px rgba(112,112,112,0.6);
     box-shadow: 0px 5px 15px 0px rgba(112,112,112,0.6);
     background-color: var(--blanco);
-
+    margin-bottom: 0; /* Elimina margen inferior adicional */
 }
 
-.error{
+.error {
     background-color: #FF0000;
     padding: 1rem;
     color: var(--blanco);
@@ -45,7 +46,7 @@ body {
     text-align: center;
 }
 
-.correcto{
+.correcto {
     background-color: #90EE90;
     padding: 1rem;
     color: var(--blanco);
@@ -61,8 +62,8 @@ body {
     border-radius: 1rem;
 }
 
-.formulario fieldset{
-    border: none
+.formulario fieldset {
+    border: none;
 }
 
 .formulario legend {
@@ -74,10 +75,11 @@ body {
     color: var(--terciario);
 }
 
-.campo{
+.campo {
     margin-bottom: 1rem;
 }
-.campo label{
+
+.campo label {
     color: var(--blanco);
     font-weight: bold;
     margin-bottom: .5rem;
@@ -85,7 +87,7 @@ body {
     font-size: 1.5rem;
 }
 
-.input-text{
+.input-text {
     width: 100%;
     border: none;
     padding: 1rem;
@@ -100,37 +102,37 @@ body {
     font-size: 2rem;
     text-transform: uppercase;
     font-weight: bold;
-    border-radius: .5rem; /*Esquinas redondeadas*/
+    border-radius: .5rem;
     text-align: center;
     border: none;
 }
 
-.boton:hover{
+.boton:hover {
     cursor: pointer;
 }
 
-.alineacion{
+.alineacion {
     display: grid;
     justify-content: end;
     margin-top: 1rem;
 }
 
-.boton-contraste{
-    background-color:var(--blanco);
+.boton-contraste {
+    background-color: var(--blanco);
     border-radius: 2rem;
     padding: .5rem;
     margin: 1rem;
     font-size: 2rem;
 }
 
-.boton-contraste:hover{
+.boton-contraste:hover {
     cursor: pointer;
 }
 
-.alineacion-contraste{
+.alineacion-contraste {
     display: grid;
     justify-content: center;
-    margin-top: 1rem;   
+    margin-top: 1rem;
 }
 
 /* Alto contraste */
@@ -140,7 +142,7 @@ body {
     --campo: #333333;
 }
 
-.high-contrast .formulario{
+.high-contrast .formulario {
     background-color: var(--negro);
     color: var(--blanco);
 }
@@ -163,4 +165,43 @@ body {
     color: var(--blanco);
 }
 
+/* Estilos para pantallas pequeñas */
+@media (max-width: 600px) {
+    .contenedor {
+        padding: 1rem;
+        max-width: 90%;
+        margin-bottom: 0; /* Asegurar que no haya margen inferior adicional */
+    }
 
+    .formulario {
+        padding: 1rem;
+    }
+
+    .alineacion {
+        margin-top: 0.5rem; /* Reduce el espacio entre el formulario y el botón */
+    }
+
+    .boton {
+        margin-bottom: 0; /* Elimina cualquier margen inferior adicional del botón */
+    }
+}
+
+/* Estilos para pantallas medianas */
+@media (min-width: 601px) and (max-width: 929px) {
+    .contenedor {
+        max-width: 80%;
+        margin-bottom: 0; /* Evitar márgenes inferiores innecesarios */
+    }
+
+    .formulario {
+        padding: 1.5rem;
+    }
+
+    .alineacion {
+        margin-top: 0.5rem; /* Asegurarse de que el espacio entre el botón y el formulario sea pequeño */
+    }
+
+    .boton {
+        margin-bottom: 0;
+    }
+}
