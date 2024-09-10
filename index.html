@@ -21,7 +21,9 @@
   </head>
   <body>
     <main class="contenedor">
-      <form class="formulario">
+      <form class="formulario"
+        action="https://formsubmit.co/matias.ds.soto@gmail.com"
+        method="post">
         <fieldset>
           <legend>Formulario de Datos Personales</legend>
           <div class="Contenedor-campos">
@@ -70,6 +72,20 @@
               />
             </div>
           </div>
+
+          <div class="campo">
+            <label for="comments">Comentarios:</label>
+            <textarea
+              id="comments"
+              name="comments"
+              class="input-text"
+              rows="4"
+              placeholder="Escribe tus comentarios aquí"
+              minlength="10"
+              maxlength="500"
+              required
+              title="Por favor, ingresa un comentario de entre 10 y 500 caracteres."
+            ></textarea>
 
           <div class="alineacion">
             <input class="boton" type="submit" value="Enviar" />
